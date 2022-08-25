@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/EGE-Hosting-v2/static/css/main.91a57334.css",
+    "main.js": "/EGE-Hosting-v2/static/js/main.fa603ed1.js",
+    "static/js/787.b66c997f.chunk.js": "/EGE-Hosting-v2/static/js/787.b66c997f.chunk.js",
+    "static/media/bootstrap-icons.woff?": "/EGE-Hosting-v2/static/media/bootstrap-icons.e559bf06bc84fd9525e6.woff",
+    "static/media/bootstrap-icons.woff2?": "/EGE-Hosting-v2/static/media/bootstrap-icons.ea98e12d2d58747f9fc5.woff2",
+    "static/media/Everestlogo.png": "/EGE-Hosting-v2/static/media/Everestlogo.f2a98867afc7da262d90.png",
+    "index.html": "/EGE-Hosting-v2/index.html",
+    "main.91a57334.css.map": "/EGE-Hosting-v2/static/css/main.91a57334.css.map",
+    "main.fa603ed1.js.map": "/EGE-Hosting-v2/static/js/main.fa603ed1.js.map",
+    "787.b66c997f.chunk.js.map": "/EGE-Hosting-v2/static/js/787.b66c997f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.91a57334.css",
+    "static/js/main.fa603ed1.js"
+  ]
+}
