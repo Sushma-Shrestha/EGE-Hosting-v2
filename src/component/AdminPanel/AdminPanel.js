@@ -1,20 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Sidebar, TextInput } from "../../composed";
-// import { slide as Menu } from 'react-burger-menu';
-
-// import { Helmet } from "react-helmet";
-// import "../AdminPanel/css/font-face.css";
-// import "../AdminPanel/vendor/font-awesome-4.7/css/font-awesome.min.css";
-// import "../AdminPanel/vendor/font-awesome-4.7/css/font-awesome.min.css";
-// import "../AdminPanel/vendor/bootstrap-4.1/bootstrap.min.css";
-// import "../AdminPanel/vendor/animsition/animsition.min.css";
-// import "../AdminPanel/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css";
-// import "../AdminPanel/vendor/wow/animate.css";
-// import "../AdminPanel/vendor/css-hamburgers/hamburgers.min.css";
-// import "../AdminPanel/vendor/slick/slick.css";
-// import "../AdminPanel/vendor/select2/select2.min.css";
-// import "../AdminPanel/vendor/perfect-scrollbar/perfect-scrollbar.css";
-// import "../AdminPanel/css/theme.css";
 import logo from "../../assets/images/Everestlogo.png";
 // import {API} from '../../composed';
 
@@ -22,7 +7,7 @@ export const AdminPanel = () => {
   // const api = process.env.API;
   const [data, setData] = useState([]);
   useEffect(() => {
-    fetch("http://192.168.1.79/api/getVisitorData.php").then((result) =>
+    fetch("https://Form.everestglobaledu.com/api/getVisitorData.php").then((result) =>
       result.json().then((resp) => {
         // console.warn("result", resp)
         setData(resp);
@@ -38,44 +23,42 @@ export const AdminPanel = () => {
   };
   return (
     <>
-      <div className="bg-nav py-5 position-relative"></div>
-      <Sidebar />
+    <div className='position-fixed w-100'>
+      <div className="bg-nav py-5 position-relative"></div></div>
+      <div className="pt-5"><div className="pt-5"><Sidebar /></div></div>
       <div className="d-flex flex-wrap">
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-10 mx-auto mt-5">
-              <div className="search">
-                <TextInput
-                  id="outlined-basic"
-                  onChange={inputHandler}
-                  variant="outlined"
-                  fullWidth
-                  label="Search"
-                />
-              </div>
               <h2 className="title-1 m-b-25">Visitor's Data</h2>
               {/* <List input={inputText} datas={data}/> */}
               <div className="table-responsive table--no-card m-b-40">
                 <table className="table table-borderless table-striped table-earning">
                   <thead>
-                    <tr>
+                    <tr className="text-center">
                       <th>id</th>
                       <th>name ID</th>
                       <th>dob</th>
-                      <th className="text-right">gender</th>
-                      <th className="text-right">marital</th>
-                      <th className="text-right">nationality</th>
+                      <th>gender</th>
+                      <th>marital</th>
+                      <th>nationality</th>
+                      <th>View</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
                     </tr>
                   </thead>
                   <tbody>
                     {data.map((items) => (
                       <tr>
-                        <td>{items.id}</td>
-                        <td>{items.name}</td>
-                        <td>{items.dob}</td>
-                        <td className="text-right">{items.gender}</td>
-                        <td className="text-right">{items.maritial_status}</td>
-                        <td className="text-right">{items.nationality}</td>
+                        <td className="text-center">{items.id}</td>
+                        <td className="text-center">{items.name}</td>
+                        <td className="text-center">{items.dob}</td>
+                        <td className="text-center">{items.gender}</td>
+                        <td className="text-center">{items.maritial_status}</td>
+                        <td className="text-center">{items.nationality}</td>
+                        <td className="text-center"><i className="bi bi-eye-fill"></i></td>
+                        <td className="text-center"><i className="bi bi-pencil"></i></td>
+                        <td className="text-center"><i className="bi bi-trash"></i></td>
                       </tr>
                     ))}
                   </tbody>

@@ -26,7 +26,7 @@ export const Home = () =>{
     return(
         <>
         
-        <section className="boxes mx-5">
+        <section className="boxes mx-5 mb-5">
 
         <div className="box">
             <i className="bi bi-mortarboard-fill icon text-light m-3"></i>

@@ -8,7 +8,7 @@ import {AdminPanel, Home} from "./component";
 // import  {Helmet} from "react-helmet";
 
 import { VisitorForm } from "component/VisitorForm";
-import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, HashRouter} from 'react-router-dom';
 // import { AdminPanel } from "component/AdminPanel";
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -46,56 +46,19 @@ function App() {
     // console.warn(data)
   return (
    <>
-   {/* <Router>
-      <Switch>
-       <Route exact path="/" element={Home}/>
-        <Route exact path="/visitor" component={VisitorForm}/>
-           {/* <VisitorForm /> */}
-        {/* </Route> */}
-           {/* <Home/> */}
-        {/* </Route> 
-        <Redirect to="/" />
-      </Switch>
-    </Router> */}
     <div className="App">
-      <BrowserRouter>
-        {/* <nav>
-          <h1>The Ninja Clothing Company</h1>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/products">Products</Link>
-        </nav> */}
+      <HashRouter>
         <Routes>
           <Route path="/" element={<><Header/><Home/></>} exact/>
           <Route path="/visitor" element={<><Header/><VisitorForm/></>}/>
           <Route path="/admin" element={<><AdminPanel/></>}/>
-          {/* <Redirect to="/" /> */}
-          {/* <Route path="/products" element={<Products/>}/> */}
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
-      {/* <Header/> */}
-      {/* <Home/> */}
-      {/* <VisitorForm/>  */}
       </>
   )
-//  <>
-// <Router>
-//    <Header/>
-//  <Home/>
-   
-//    <Routes>
-//        <Route exact path='/' element={< Home />}></Route>
-//        <Route exact path='/visitor' element={< VisitorForm />}></Route>
 
-//      <Route exact path='/about' element={< About />}></Route>
-//        <Route exact path='/contact' element={< Contact />}></Route> 
-//        </Routes>
-//    </Router>
-//    </> 
-      // <AdminPanel/>
-      // </>
-      // <AdminPanel/></> 
+       
   // <div className="row">
   //                   <div className="col-lg-12">
   //                        <h2 className="title-1 m-b-25">Visitor's Data</h2>

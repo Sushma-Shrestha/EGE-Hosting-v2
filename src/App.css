@@ -186,3 +186,24 @@ hr {
     display: none;
     /* rgba(0, 0, 0, 0.3); */
   }
+@media only screen and (max-width: 790px){
+  #backbutton{
+    transform:translate(0%, -260%) !important;
+  }
+}
+@media only screen and (max-width: 400px){
+  #backbutton{
+    transform:translate(0%, -280%) !important;
+    /* text-align: left !important; */
+  }
+  .thislogo{
+    width: 50% !important;
+    height: 80% !important;
+    transform:translate(10%, -60%) !important;
+  }
+  #EGElogo{
+    width: 90%;
+    height: 100%;
+  }
+
+}

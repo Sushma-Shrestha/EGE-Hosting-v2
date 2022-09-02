@@ -7,7 +7,7 @@ export const Header = () => {
         <div className="bg-nav py-4 position-relative">
             <p>&nbsp;</p>
             <div className=" position-absolute bg-light p-2 shadow thislogo">
-                <img src={Everestlogo} alt="Company logo" width="204px" height="83px"/>
+                <img src={Everestlogo} alt="Company logo" width="204px" height="83px" id="EGElogo"/>
             </div>
         </div>
     </nav>

@@ -1,5 +1,6 @@
 {
   "name": "everest-form-app",
+  "homepage": "https://form.everestglobaledu.com/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

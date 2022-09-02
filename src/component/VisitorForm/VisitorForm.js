@@ -44,6 +44,40 @@ export const VisitorForm = () => {
    //useContext
    //useId
    //useTransition 
+    const isChecked = (id) =>{
+        var e = document.getElementById(id);
+        return (e && e.checked);
+    }
+    const know_us = () => {
+        let text = ""
+        
+        if (isChecked("fb")){ 
+            text = text + "fb, "
+        }
+        if (isChecked("website")){ 
+            text = text + "website, "
+        }
+        if (isChecked("paperadv")){ 
+            text = text + "paperadv, "
+        }
+        if (isChecked("edufair")){ 
+            text = text + "edufair, "
+        }
+        if (isChecked("friends")){ 
+            text = text + "friends, "
+        }
+        if (isChecked("reference")){ 
+            text = text + "reference, "
+        }
+        if (isChecked("hoardingboards")){ 
+            text = text + "hoardingboards, "
+        }
+        if (isChecked("tv")){ 
+            text = text + "tv, "    
+        }
+        return text;
+    }
+
     const forWork = ()=>{
         setWork(true);
     }
@@ -99,13 +133,13 @@ export const VisitorForm = () => {
     const formik = useFormik({
             initialValues:{
             name:'',
-            dob: '',
+            dob: '0000-00-00',
             gender:'',
             marital:'',
             parentsname:'',
             occupation:'',
-            nationality:'',
-            telephone:'',
+            nationality:'Nepal',
+            telephone:'0000000000',
             parentscontact:'',
             mobile:'',
             email: '',
@@ -114,23 +148,23 @@ export const VisitorForm = () => {
             applytype:'',
             nameofmaster:'', 
             scoreofmaster:'',
-            passedofmaster:'',
+            passedofmaster:'0000-00-00',
             nameofbachelor:'', 
             scoreofbachelor:'',
-            passedofbachelor:'',
+            passedofbachelor:'0000-00-00',
             nameofplustwo:'', 
             scoreofplustwo:'',
-            passedofplustwo:'',
+            passedofplustwo:'0000-00-00',
             educationoption:'',
             workoption:'',
             nameofwork:'',
-            startofwork:'',
-            endofwork:'',
+            startofwork:'0000-00-00',
+            endofwork:'0000-00-00',
             edugap:'',
-            gapstart:'',
-            gapend:'',
+            gapstart:'0000-00-00',
+            gapend:'0000-00-00',
             intendedcourse:'',
-            intendedcountry:'',
+            intendedcountry:'Australia',
             visa:'',
             appliedcountry:'',
             toefl:'',
@@ -141,7 +175,7 @@ export const VisitorForm = () => {
             pte:'',
             otherlan:'',
             other:'',
-            know_us:'',
+            know_us:'na',
             remarks:'',
             confirm:"off",
             fb:"",
@@ -151,16 +185,15 @@ export const VisitorForm = () => {
             friends:"",
             reference:"",
             hoardingboards:"",
-            tv:"",
-
+            tv:""
         },
         
         validationSchema: Yup.object({
             name: Yup.string()
             .min(5, "Must be atleast 5 characters.")
             .required('Required'),
-            dob: Yup.string()
-            .required('Required'),
+            dob: Yup.date()
+            .required('Required').min('0001-00-00', 'Required date'),
             gender: Yup.string()
             .oneOf(["male", "female"], "Please select one")
             .required('Required'),
@@ -201,11 +234,11 @@ export const VisitorForm = () => {
                 is: (educationoption) => educationoption === 'master',
                 then: Yup.string()
             .required("Required")}),
-            passedofmaster: Yup.string()
+            passedofmaster: Yup.date()
             .when('educationoption', {
                 is: (educationoption) => educationoption === 'master',
-                then: Yup.string()
-            .required("Required")}),
+                then: Yup.date()
+            .required("Required").min('0001-00-00', 'Required date')}),
             nameofbachelor: Yup.string()
             .when('educationoption', {
                 is: (educationoption) => (educationoption === 'bachelor' || educationoption === 'master'),
@@ -216,11 +249,11 @@ export const VisitorForm = () => {
                 is: (educationoption) => (educationoption === 'bachelor' || educationoption === 'master'),
                 then: Yup.string()
             .required("Required")}),
-            passedofbachelor: Yup.string()
+            passedofbachelor: Yup.date()
             .when('educationoption', {
                 is: (educationoption) => (educationoption === 'bachelor' || educationoption === 'master'),
-                then: Yup.string()
-            .required("Required")}),
+                then: Yup.date()
+            .required("Required").min('0001-00-00', 'Required date')}),
             nameofplustwo: Yup.string()
             .when('educationoption', {
                 is: (educationoption) => (educationoption === 'bachelor' || educationoption === 'master' || educationoption === 'plustwo'),
@@ -231,11 +264,11 @@ export const VisitorForm = () => {
                 is: (educationoption) => (educationoption === 'bachelor' || educationoption === 'master' || educationoption === 'plustwo'),
                 then: Yup.string()
             .required("Required")}),
-            passedofplustwo: Yup.string()
+            passedofplustwo: Yup.date()
             .when('educationoption', {
                 is: (educationoption) => (educationoption === 'bachelor' || educationoption === 'master' || educationoption === 'plustwo'),
-                then: Yup.string()
-            .required("Required")}),
+                then: Yup.date()
+            .required("Required").min('0001-00-00', 'Required date')}),
            
             workoption: Yup.string()
             .oneOf(["yes", "no"], "Please select one")
@@ -244,24 +277,24 @@ export const VisitorForm = () => {
                 is: (workoption) => workoption === 'yes',
                 then: Yup.string().required('Required')
             }),
-            startofwork:Yup.string().when('workoption', {
+            startofwork:Yup.date().when('workoption', {
                     is: (workoption) => workoption === 'yes',
-                    then: Yup.string().required('Required')
+                    then: Yup.date().required('Required').min('0001-00-00', 'Required date')
                 }),
-                endofwork:Yup.string().when('workoption', {
+                endofwork:Yup.date().when('workoption', {
                         is: (workoption) => workoption === 'yes',
-                        then: Yup.string().required('Required')
+                        then: Yup.date().required('Required').min('0001-00-00', 'Required date')
                     }),
             edugap: Yup.string()
             .oneOf(["yes", "no"], "Please select one")
             .required('Required'),
-            gapstart:Yup.string().when('edugap', {
+            gapstart:Yup.date().when('edugap', {
                 is: (edugap) => edugap === 'yes',
-                then: Yup.string().required('Required')
+                then: Yup.date().required('Required').min('0001-00-00', 'Required date')
             }),
-            gapend:Yup.string().when('edugap', {
+            gapend:Yup.date().when('edugap', {
                 is: (edugap) => edugap === 'yes',
-                then: Yup.string().required('Required')
+                then: Yup.date().required('Required').min('0001-00-00', 'Required date')
             }),
             intendedcourse: Yup.string()
             .required('Required'),
@@ -323,12 +356,12 @@ export const VisitorForm = () => {
             formabc.append( "pte", formik.values.pte)
             formabc.append( "otherlan", formik.values.otherlan)
             formabc.append( "other", formik.values.other)
-            formabc.append( "know_us", formik.values.know_us)
+            formabc.append( "know_us", know_us())
             formabc.append( "remarks", formik.values.remarks)
             formabc.append( "confirm", formik.values.confirm)
             
             fetch(
-                "http://192.168.137.1/api/addVisitor.php",
+                "https://Form.everestglobaledu.com/api/addVisitor.php",
                   {        
                   method:"POST",
                   mode: 'no-cors',
@@ -361,6 +394,7 @@ export const VisitorForm = () => {
                 // }
                 // console.log("the data inserted");
                 alert("The form is submitted!\n Thank you!!");
+                
                 // window.location.reload(true);
                 navigate('/');
                 // formik.values.resetForm();
@@ -388,7 +422,7 @@ export const VisitorForm = () => {
                     //     console.log("datainserted")
                     // }
 //                 // console.log(this.state.datainserted);
-//             //   var InsertAPIURL = "http://192.168.56.1/api/addVisitor.php";   //API to render signup
+//             //   var InsertAPIURL = "https://192.168.56.1/api/addVisitor.php";   //API to render signup
         
     
     // FETCH func ------------------------------------
@@ -415,38 +449,38 @@ export const VisitorForm = () => {
     //   }
       
     return(
+        <>
+         <div className=" col-md-12 col-sm-12 text-end px-4" id="backbutton" style={{transform:"translate(0%, -230%)"}}>
+          <button onClick={()=> {navigate('/');}} className="text-light fw-bold bg-transparent border-0" style={{zIndex:"+9999"}}><i className="bi-arrow-left fs-1"></i></button>
+        </div>
+         <div className="container pb-5">
         
-          
-         <div className="container py-5">
-                <div className="row">
-                    <div className="col-12 mx-auto">
-                        <form  onSubmit={formik.handleSubmit} method="POST" action="http://192.168.56.1/api/addVisitor.php">
+                <div className="d-flex justify-content-center">
+                    <div className="col-11 mx-0 px-0">
+                        <form  onSubmit={formik.handleSubmit} method="POST" action="https://form.everestglobaledu.com/api/addVisitor.php">
                          <div className="form-group row justify-content-center">
-                                <div className="col-sm-6 fs-1 text-white text-center Visitorformtext ">
+                                <div className="col-md-6 fs-1 text-white text-center Visitorformtext">
                                     VISITOR'S FORM 
-                                
-        
                                 </div>
-                                
                             </div>
                             <br/>
                                 <br/>
-                            <div className="form-group row">
-                                <div className="col-sm-6 mt-3  heading">
+                            <div className="form-group">
+                                <div className="col-sm-6 mt-3 heading">
                                     <p className="fs-3">Student details</p>
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <div className="col-sm-10 col-md-6 col-lg-6 mt-3 ">
+                                <div className="col-sm-6 mt-3 ">
                                     <TextInput labelname="Name" id="name" type="text" placeholder="Your Name" name="name" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name} />   
                                     {formik.touched.name && formik.errors.name ?(
-                                        <div className="error"> {formik.errors.name} </div>
+                                        <div className="error col-sm-6"> {formik.errors.name} </div>
                                     ) :null}
                                 </div>
                                 <div className="col-sm-6 mt-3 ">
                                     <TextInput labelname="Date of Birth" id="dob" type="date" name="dob" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.dob} />    
                                     {formik.touched.dob && formik.errors.dob ?(
-                                        <div className="error"> {formik.errors.dob} </div>
+                                        <div className="error col-sm-2"> {formik.errors.dob} </div>
                                     ) :null}
                                 </div>
                                 <div className="form-group row">
@@ -454,7 +488,7 @@ export const VisitorForm = () => {
                                         <label for="birthday" className="fs-5 label-color">Select Gender:</label>  
                                     </div>
                                 </div>
-                                <div className="form-group row ms-4">
+                                <div className="form-group row ms-1">
                                     
                                     <div className="form-check col-sm-3 mt-3 ">
                                         <RadioButton id="male" labelname="Male" name="gender" value='male' onChange={formik.handleChange} onBlur={formik.handleBlur}/>
@@ -463,16 +497,16 @@ export const VisitorForm = () => {
                                         <RadioButton id="female" labelname="Female" name="gender" value='female' onChange={formik.handleChange} onBlur={formik.handleBlur}  />
                                     </div>
                                     {formik.touched.gender && formik.errors.gender ?(
-                                        <div className="error"> {formik.errors.gender} </div>
+                                        <div className="error col-4"> {formik.errors.gender} </div>
                                     ) :null}
                                 </div>
                             </div>
                             <div className="form-group row">
                                 <div className="col-sm-5 mt-3 ">
-                                    <label for="marital status" className="fs-5 label-color m-2">Marital Status:</label>  
+                                    <label for="marital status" className="fs-5 label-color">Marital Status:</label>  
                                 </div>
                             </div>
-                            <div className="form-group row ms-4">
+                            <div className="form-group row ms-1">
                                 <div className="form-check col-sm-3 mt-3 ">
                                     <RadioButton id="single" labelname="Single" name="marital" value="single" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
                                 </div>
@@ -480,7 +514,7 @@ export const VisitorForm = () => {
                                     <RadioButton id="married" labelname="Married" name="marital" value="married" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
                                 </div>
                                 {formik.touched.marital && formik.errors.marital ?(
-                                        <div className="error"> {formik.errors.marital} </div>
+                                        <div className="error col-6"> {formik.errors.marital} </div>
                                     ) :null}
                             </div>
                             
@@ -494,7 +528,7 @@ export const VisitorForm = () => {
                                 <div className="col-sm-6 mt-3 ">
                                     <TextInput labelname="Parent's name" id="parentsname" name="parentsname" type="text" placeholder="Parent's name" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.parentsname}/>
                                     {formik.touched.parentsname && formik.errors.parentsname ?(
-                                        <div className="error"> {formik.errors.parentsname} </div>
+                                        <div className="error col-md-2"> {formik.errors.parentsname} </div>
                                     ) :null} 
 
                                 </div>
@@ -504,261 +538,260 @@ export const VisitorForm = () => {
                                 <div className="col-sm-6 mt-3 ">
                                     <label className="label-color m-2">Nationality</label>
                                     <select id="nationality" name="nationality" className="form-control form-select" aria-label="Default select example" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.nationality}>
-                                        <option value="NP">Nepal</option>
-                                        <option value="AF">Afghanistan</option>
-                                        <option value="AX">Aland Islands</option>
-                                        <option value="AL">Albania</option>
-                                        <option value="DZ">Algeria</option>
-                                        <option value="AS">American Samoa</option>
-                                        <option value="AD">Andorra</option>
-                                        <option value="AO">Angola</option>
-                                        <option value="AI">Anguilla</option>
-                                        <option value="AQ">Antarctica</option>
-                                        <option value="AG">Antigua and Barbuda</option>
-                                        <option value="AR">Argentina</option>
-                                        <option value="AM">Armenia</option>
-                                        <option value="AW">Aruba</option>
-                                        <option value="AU">Australia</option>
-                                        <option value="AT">Austria</option>
-                                        <option value="AZ">Azerbaijan</option>
-                                        <option value="BS">Bahamas</option>
-                                        <option value="BH">Bahrain</option>
-                                        <option value="BD">Bangladesh</option>
-                                        <option value="BB">Barbados</option>
-                                        <option value="BY">Belarus</option>
-                                        <option value="BE">Belgium</option>
-                                        <option value="BZ">Belize</option>
-                                        <option value="BJ">Benin</option>
-                                        <option value="BM">Bermuda</option>
-                                        <option value="BT">Bhutan</option>
-                                        <option value="BO">Bolivia</option>
-                                        <option value="BQ">Bonaire, Sint Eustatius and Saba</option>
-                                        <option value="BA">Bosnia and Herzegovina</option>
-                                        <option value="BW">Botswana</option>
-                                        <option value="BV">Bouvet Island</option>
-                                        <option value="BR">Brazil</option>
-                                        <option value="IO">British Indian Ocean Territory</option>
-                                        <option value="BN">Brunei Darussalam</option>
-                                        <option value="BG">Bulgaria</option>
-                                        <option value="BF">Burkina Faso</option>
-                                        <option value="BI">Burundi</option>
-                                        <option value="KH">Cambodia</option>
-                                        <option value="CM">Cameroon</option>
-                                        <option value="CA">Canada</option>
-                                        <option value="CV">Cape Verde</option>
-                                        <option value="KY">Cayman Islands</option>
-                                        <option value="CF">Central African Republic</option>
-                                        <option value="TD">Chad</option>
-                                        <option value="CL">Chile</option>
-                                        <option value="CN">China</option>
-                                        <option value="CX">Christmas Island</option>
-                                        <option value="CC">Cocos (Keeling) Islands</option>
-                                        <option value="CO">Colombia</option>
-                                        <option value="KM">Comoros</option>
-                                        <option value="CG">Congo</option>
-                                        <option value="CD">Congo, Democratic Republic of the Congo</option>
-                                        <option value="CK">Cook Islands</option>
-                                        <option value="CR">Costa Rica</option>
-                                        <option value="CI">Cote D'Ivoire</option>
-                                        <option value="HR">Croatia</option>
-                                        <option value="CU">Cuba</option>
-                                        <option value="CW">Curacao</option>
-                                        <option value="CY">Cyprus</option>
-                                        <option value="CZ">Czech Republic</option>
-                                        <option value="DK">Denmark</option>
-                                        <option value="DJ">Djibouti</option>
-                                        <option value="DM">Dominica</option>
-                                        <option value="DO">Dominican Republic</option>
-                                        <option value="EC">Ecuador</option>
-                                        <option value="EG">Egypt</option>
-                                        <option value="SV">El Salvador</option>
-                                        <option value="GQ">Equatorial Guinea</option>
-                                        <option value="ER">Eritrea</option>
-                                        <option value="EE">Estonia</option>
-                                        <option value="ET">Ethiopia</option>
-                                        <option value="FK">Falkland Islands (Malvinas)</option>
-                                        <option value="FO">Faroe Islands</option>
-                                        <option value="FJ">Fiji</option>
-                                        <option value="FI">Finland</option>
-                                        <option value="FR">France</option>
-                                        <option value="GF">French Guiana</option>
-                                        <option value="PF">French Polynesia</option>
-                                        <option value="TF">French Southern Territories</option>
-                                        <option value="GA">Gabon</option>
-                                        <option value="GM">Gambia</option>
-                                        <option value="GE">Georgia</option>
-                                        <option value="DE">Germany</option>
-                                        <option value="GH">Ghana</option>
-                                        <option value="GI">Gibraltar</option>
-                                        <option value="GR">Greece</option>
-                                        <option value="GL">Greenland</option>
-                                        <option value="GD">Grenada</option>
-                                        <option value="GP">Guadeloupe</option>
-                                        <option value="GU">Guam</option>
-                                        <option value="GT">Guatemala</option>
-                                        <option value="GG">Guernsey</option>
-                                        <option value="GN">Guinea</option>
-                                        <option value="GW">Guinea-Bissau</option>
-                                        <option value="GY">Guyana</option>
-                                        <option value="HT">Haiti</option>
-                                        <option value="HM">Heard Island and Mcdonald Islands</option>
-                                        <option value="VA">Holy See (Vatican City State)</option>
-                                        <option value="HN">Honduras</option>
-                                        <option value="HK">Hong Kong</option>
-                                        <option value="HU">Hungary</option>
-                                        <option value="IS">Iceland</option>
-                                        <option value="IN">India</option>
-                                        <option value="ID">Indonesia</option>
-                                        <option value="IR">Iran, Islamic Republic of</option>
-                                        <option value="IQ">Iraq</option>
-                                        <option value="IE">Ireland</option>
-                                        <option value="IM">Isle of Man</option>
-                                        <option value="IL">Israel</option>
-                                        <option value="IT">Italy</option>
-                                        <option value="JM">Jamaica</option>
-                                        <option value="JP">Japan</option>
-                                        <option value="JE">Jersey</option>
-                                        <option value="JO">Jordan</option>
-                                        <option value="KZ">Kazakhstan</option>
-                                        <option value="KE">Kenya</option>
-                                        <option value="KI">Kiribati</option>
-                                        <option value="KP">Korea, Democratic People's Republic of</option>
-                                        <option value="KR">Korea, Republic of</option>
-                                        <option value="XK">Kosovo</option>
-                                        <option value="KW">Kuwait</option>
-                                        <option value="KG">Kyrgyzstan</option>
-                                        <option value="LA">Lao People's Democratic Republic</option>
-                                        <option value="LV">Latvia</option>
-                                        <option value="LB">Lebanon</option>
-                                        <option value="LS">Lesotho</option>
-                                        <option value="LR">Liberia</option>
-                                        <option value="LY">Libyan Arab Jamahiriya</option>
-                                        <option value="LI">Liechtenstein</option>
-                                        <option value="LT">Lithuania</option>
-                                        <option value="LU">Luxembourg</option>
-                                        <option value="MO">Macao</option>
-                                        <option value="MK">Macedonia, the Former Yugoslav Republic of</option>
-                                        <option value="MG">Madagascar</option>
-                                        <option value="MW">Malawi</option>
-                                        <option value="MY">Malaysia</option>
-                                        <option value="MV">Maldives</option>
-                                        <option value="ML">Mali</option>
-                                        <option value="MT">Malta</option>
-                                        <option value="MH">Marshall Islands</option>
-                                        <option value="MQ">Martinique</option>
-                                        <option value="MR">Mauritania</option>
-                                        <option value="MU">Mauritius</option>
-                                        <option value="YT">Mayotte</option>
-                                        <option value="MX">Mexico</option>
-                                        <option value="FM">Micronesia, Federated States of</option>
-                                        <option value="MD">Moldova, Republic of</option>
-                                        <option value="MC">Monaco</option>
-                                        <option value="MN">Mongolia</option>
-                                        <option value="ME">Montenegro</option>
-                                        <option value="MS">Montserrat</option>
-                                        <option value="MA">Morocco</option>
-                                        <option value="MZ">Mozambique</option>
-                                        <option value="MM">Myanmar</option>
-                                        <option value="NA">Namibia</option>
-                                        <option value="NR">Nauru</option>
-                                        <option value="NL">Netherlands</option>
-                                        <option value="AN">Netherlands Antilles</option>
-                                        <option value="NC">New Caledonia</option>
-                                        <option value="NZ">New Zealand</option>
-                                        <option value="NI">Nicaragua</option>
-                                        <option value="NE">Niger</option>
-                                        <option value="NG">Nigeria</option>
-                                        <option value="NU">Niue</option>
-                                        <option value="NF">Norfolk Island</option>
-                                        <option value="MP">Northern Mariana Islands</option>
-                                        <option value="NO">Norway</option>
-                                        <option value="OM">Oman</option>
-                                        <option value="PK">Pakistan</option>
-                                        <option value="PW">Palau</option>
-                                        <option value="PS">Palestinian Territory, Occupied</option>
-                                        <option value="PA">Panama</option>
-                                        <option value="PG">Papua New Guinea</option>
-                                        <option value="PY">Paraguay</option>
-                                        <option value="PE">Peru</option>
-                                        <option value="PH">Philippines</option>
-                                        <option value="PN">Pitcairn</option>
-                                        <option value="PL">Poland</option>
-                                        <option value="PT">Portugal</option>
-                                        <option value="PR">Puerto Rico</option>
-                                        <option value="QA">Qatar</option>
-                                        <option value="RE">Reunion</option>
-                                        <option value="RO">Romania</option>
-                                        <option value="RU">Russian Federation</option>
-                                        <option value="RW">Rwanda</option>
-                                        <option value="BL">Saint Barthelemy</option>
-                                        <option value="SH">Saint Helena</option>
-                                        <option value="KN">Saint Kitts and Nevis</option>
-                                        <option value="LC">Saint Lucia</option>
-                                        <option value="MF">Saint Martin</option>
-                                        <option value="PM">Saint Pierre and Miquelon</option>
-                                        <option value="VC">Saint Vincent and the Grenadines</option>
-                                        <option value="WS">Samoa</option>
-                                        <option value="SM">San Marino</option>
-                                        <option value="ST">Sao Tome and Principe</option>
-                                        <option value="SA">Saudi Arabia</option>
-                                        <option value="SN">Senegal</option>
-                                        <option value="RS">Serbia</option>
-                                        <option value="CS">Serbia and Montenegro</option>
-                                        <option value="SC">Seychelles</option>
-                                        <option value="SL">Sierra Leone</option>
-                                        <option value="SG">Singapore</option>
-                                        <option value="SX">Sint Maarten</option>
-                                        <option value="SK">Slovakia</option>
-                                        <option value="SI">Slovenia</option>
-                                        <option value="SB">Solomon Islands</option>
-                                        <option value="SO">Somalia</option>
-                                        <option value="ZA">South Africa</option>
-                                        <option value="GS">South Georgia and the South Sandwich Islands</option>
-                                        <option value="SS">South Sudan</option>
-                                        <option value="ES">Spain</option>
-                                        <option value="LK">Sri Lanka</option>
-                                        <option value="SD">Sudan</option>
-                                        <option value="SR">Suriname</option>
-                                        <option value="SJ">Svalbard and Jan Mayen</option>
-                                        <option value="SZ">Swaziland</option>
-                                        <option value="SE">Sweden</option>
-                                        <option value="CH">Switzerland</option>
-                                        <option value="SY">Syrian Arab Republic</option>
-                                        <option value="TW">Taiwan, Province of China</option>
-                                        <option value="TJ">Tajikistan</option>
-                                        <option value="TZ">Tanzania, United Republic of</option>
-                                        <option value="TH">Thailand</option>
-                                        <option value="TL">Timor-Leste</option>
-                                        <option value="TG">Togo</option>
-                                        <option value="TK">Tokelau</option>
-                                        <option value="TO">Tonga</option>
-                                        <option value="TT">Trinidad and Tobago</option>
-                                        <option value="TN">Tunisia</option>
-                                        <option value="TR">Turkey</option>
-                                        <option value="TM">Turkmenistan</option>
-                                        <option value="TC">Turks and Caicos Islands</option>
-                                        <option value="TV">Tuvalu</option>
-                                        <option value="UG">Uganda</option>
-                                        <option value="UA">Ukraine</option>
-                                        <option value="AE">United Arab Emirates</option>
-                                        <option value="GB">United Kingdom</option>
-                                        <option value="US">United States</option>
-                                        <option value="UM">United States Minor Outlying Islands</option>
-                                        <option value="UY">Uruguay</option>
-                                        <option value="UZ">Uzbekistan</option>
-                                        <option value="VU">Vanuatu</option>
-                                        <option value="VE">Venezuela</option>
-                                        <option value="VN">Viet Nam</option>
-                                        <option value="VG">Virgin Islands, British</option>
-                                        <option value="VI">Virgin Islands, U.s.</option>
-                                        <option value="WF">Wallis and Futuna</option>
-                                        <option value="EH">Western Sahara</option>
-                                        <option value="YE">Yemen</option>
-                                        <option value="ZM">Zambia</option>
-                                        <option value="ZW">Zimbabwe</option>
+                                        <option value="Nepal">Nepal</option>
+                                        <option value="Afghanistan">Afghanistan</option>
+                                        <option value="Aland Islands">Aland Islands</option>
+                                        <option value="Albania">Albania</option>
+                                        <option value="Algeria">Algeria</option>
+                                        <option value="American Samoa">American Samoa</option>
+                                        <option value="Andorra">Andorra</option>
+                                        <option value="Angola">Angola</option>
+                                        <option value="Anguilla">Anguilla</option>
+                                        <option value="Antarctica">Antarctica</option>
+                                        <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+                                        <option value="Argentina">Argentina</option>
+                                        <option value="Armenia">Armenia</option>
+                                        <option value="Aruba">Aruba</option>
+                                        <option value="Australia">Australia</option>
+                                        <option value="Austria">Austria</option>
+                                        <option value="Azerbaijan">Azerbaijan</option>
+                                        <option value="Bahamas">Bahamas</option>
+                                        <option value="Bahrain">Bahrain</option>
+                                        <option value="Bangladesh">Bangladesh</option>
+                                        <option value="Barbados">Barbados</option>
+                                        <option value="Belarus">Belarus</option>
+                                        <option value="Belgium">Belgium</option>
+                                        <option value="Belize">Belize</option>
+                                        <option value="Benin">Benin</option>
+                                        <option value="Bermuda">Bermuda</option>
+                                        <option value="Bhutan">Bhutan</option>
+                                        <option value="BoliBhutanvia">BoliBhutanvia</option>
+                                        <option value="Bonaire, Sint Eustatius and Saba">Bonaire, Sint Eustatius and Saba</option>
+                                        <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                                        <option value="Botswana">Botswana</option>
+                                        <option value="Bouvet Island">Bouvet Island</option>
+                                        <option value="Brazil">Brazil</option>
+                                        <option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
+                                        <option value="Brunei Darussalam">Brunei Darussalam</option>
+                                        <option value="Bulgaria">Bulgaria</option>
+                                        <option value="Burkina Faso">Burkina Faso</option>
+                                        <option value="Burundi">Burundi</option>
+                                        <option value="Cambodia">Cambodia</option>
+                                        <option value="Cameroon">Cameroon</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="Cape Verde">Cape Verde</option>
+                                        <option value="Cayman Islands">Cayman Islands</option>
+                                        <option value="Central African Republic">Central African Republic</option>
+                                        <option value="Chad">Chad</option>
+                                        <option value="Chile">Chile</option>
+                                        <option value="China">China</option>
+                                        <option value="Christmas Island">Christmas Island</option>
+                                        <option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
+                                        <option value="Colombia">Colombia</option>
+                                        <option value="Comoros">Comoros</option>
+                                        <option value="Congo">Congo</option>
+                                        <option value="Cook Islands">Cook Islands</option>
+                                        <option value="Costa Rica">Costa Rica</option>
+                                        <option value="Cote D'Ivoire">Cote D'Ivoire</option>
+                                        <option value="Croatia">Croatia</option>
+                                        <option value="Cuba">Cuba</option>
+                                        <option value="Curacao">Curacao</option>
+                                        <option value="Cyprus">Cyprus</option>
+                                        <option value="Czech Republic">Czech Republic</option>
+                                        <option value="Denmark">Denmark</option>
+                                        <option value="Djibouti">Djibouti</option>
+                                        <option value="Dominica">Dominica</option>
+                                        <option value="Dominican Republic">Dominican Republic</option>
+                                        <option value="Ecuador">Ecuador</option>
+                                        <option value="Egypt">Egypt</option>
+                                        <option value="El Salvador">El Salvador</option>
+                                        <option value="Equatorial Guinea">Equatorial Guinea</option>
+                                        <option value="Eritrea">Eritrea</option>
+                                        <option value="Estonia">Estonia</option>
+                                        <option value="Ethiopia">Ethiopia</option>
+                                        <option value="Falkland Islands (Malvinas)">Falkland Islands (Malvinas)</option>
+                                        <option value="Faroe Islands">Faroe Islands</option>
+                                        <option value="Fiji">Fiji</option>
+                                        <option value="Finland">Finland</option>
+                                        <option value="France">France</option>
+                                        <option value="French Guiana">French Guiana</option>
+                                        <option value="French Polynesia">French Polynesia</option>
+                                        <option value="French Southern Territories">French Southern Territories</option>
+                                        <option value="Gabon">Gabon</option>
+                                        <option value="Gambia">Gambia</option>
+                                        <option value="Georgia">Georgia</option>
+                                        <option value="Germany">Germany</option>
+                                        <option value="Ghana">Ghana</option>
+                                        <option value="Gibraltar">Gibraltar</option>
+                                        <option value="Greece">Greece</option>
+                                        <option value="Greenland">Greenland</option>
+                                        <option value="Grenada">Grenada</option>
+                                        <option value="Guadeloupe">Guadeloupe</option>
+                                        <option value="Guam">Guam</option>
+                                        <option value="Guatemala">Guatemala</option>
+                                        <option value="Guernsey">Guernsey</option>
+                                        <option value="Guinea">Guinea</option>
+                                        <option value="Guinea-Bissau">Guinea-Bissau</option>
+                                        <option value="Guyana">Guyana</option>
+                                        <option value="Haiti">Haiti</option>
+                                        <option value="Heard Island and Mcdonald Islands">Heard Island and Mcdonald Islands</option>
+                                        <option value="Holy See (Vatican City State)">Holy See (Vatican City State)</option>
+                                        <option value="Honduras">Honduras</option>
+                                        <option value="Hong Kong">Hong Kong</option>
+                                        <option value="Hungary">Hungary</option>
+                                        <option value="Iceland">Iceland</option>
+                                        <option value="India">India</option>
+                                        <option value="Indonesia">Indonesia</option>
+                                        <option value="Iran, Islamic Republic of">Iran, Islamic Republic of</option>
+                                        <option value="Iraq">Iraq</option>
+                                        <option value="Ireland">Ireland</option>
+                                        <option value="Isle of Man">Isle of Man</option>
+                                        <option value="Israel">Israel</option>
+                                        <option value="Italy">Italy</option>
+                                        <option value="Jamaica">Jamaica</option>
+                                        <option value="Japan">Japan</option>
+                                        <option value="Jersey">Jersey</option>
+                                        <option value="Jordan">Jordan</option>
+                                        <option value="Kazakhstan">Kazakhstan</option>
+                                        <option value="Kenya">Kenya</option>
+                                        <option value="Kiribati">Kiribati</option>
+                                        <option value="Korea, Democratic People's Republic of">Korea, Democratic People's Republic of</option>
+                                        <option value="Korea, Republic of">Korea, Republic of</option>
+                                        <option value="Kosovo">Kosovo</option>
+                                        <option value="Kuwait">Kuwait</option>
+                                        <option value="Kyrgyzstan">Kyrgyzstan</option>
+                                        <option value="Lao People's Democratic Republic">Lao People's Democratic Republic</option>
+                                        <option value="Latvia">Latvia</option>
+                                        <option value="Lebanon">Lebanon</option>
+                                        <option value="Lesotho">Lesotho</option>
+                                        <option value="Liberia">Liberia</option>
+                                        <option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option>
+                                        <option value="Liechtenstein">Liechtenstein</option>
+                                        <option value="Lithuania">Lithuania</option>
+                                        <option value="Luxembourg">Luxembourg</option>
+                                        <option value="Macao">Macao</option>
+                                        <option value="Macedonia, the Former Yugoslav Republic of">Macedonia, the Former Yugoslav Republic of</option>
+                                        <option value="Madagascar">Madagascar</option>
+                                        <option value="Malawi">Malawi</option>
+                                        <option value="Malaysia">Malaysia</option>
+                                        <option value="Maldives">Maldives</option>
+                                        <option value="Mali">Mali</option>
+                                        <option value="Malta">Malta</option>
+                                        <option value="Marshall Islands">Marshall Islands</option>
+                                        <option value="Martinique">Martinique</option>
+                                        <option value="Mauritania">Mauritania</option>
+                                        <option value="Mauritius">Mauritius</option>
+                                        <option value="Mayotte">Mayotte</option>
+                                        <option value="Mexico">Mexico</option>
+                                        <option value=">Micronesia, Federated States of">Micronesia, Federated States of</option>
+                                        <option value=">Moldova, Republic of">Moldova, Republic of</option>
+                                        <option value=">Monaco">Monaco</option>
+                                        <option value=">Mongolia">Mongolia</option>
+                                        <option value=">Montenegro">Montenegro</option>
+                                        <option value=">Montserrat">Montserrat</option>
+                                        <option value=">Morocco">Morocco</option>
+                                        <option value=">Mozambique">Mozambique</option>
+                                        <option value=">Myanmar">Myanmar</option>
+                                        <option value=">Namibia">Namibia</option>
+                                        <option value=">Nauru">Nauru</option>
+                                        <option value=">Netherlands">Netherlands</option>
+                                        <option value=">Netherlands Antilles">Netherlands Antilles</option>
+                                        <option value=">New Caledonia">New Caledonia</option>
+                                        <option value=">New Zealand">New Zealand</option>
+                                        <option value=">Nicaragua">Nicaragua</option>
+                                        <option value=">Niger">Niger</option>
+                                        <option value=">Nigeria">Nigeria</option>
+                                        <option value=">Niue">Niue</option>
+                                        <option value=">Norfolk Island">Norfolk Island</option>
+                                        <option value=">Northern Mariana Islands">Northern Mariana Islands</option>
+                                        <option value=">Norway">Norway</option>
+                                        <option value="Oman">Oman</option>
+                                        <option value="Pakistan">Pakistan</option>
+                                        <option value="Palau">Palau</option>
+                                        <option value="Palestinian Territory, Occupied">Palestinian Territory, Occupied</option>
+                                        <option value="Panama">Panama</option>
+                                        <option value="Papua New Guinea">Papua New Guinea</option>
+                                        <option value="Paraguay">Paraguay</option>
+                                        <option value="Peru">Peru</option>
+                                        <option value="Philippines">Philippines</option>
+                                        <option value="Pitcairn">Pitcairn</option>
+                                        <option value="Poland">Poland</option>
+                                        <option value="Portugal">Portugal</option>
+                                        <option value="Puerto Rico">Puerto Rico</option>
+                                        <option value="Qatar">Qatar</option>
+                                        <option value="Reunion">Reunion</option>
+                                        <option value="Romania">Romania</option>
+                                        <option value="Russian Federation">Russian Federation</option>
+                                        <option value="Rwanda">Rwanda</option>
+                                        <option value="Saint Barthelemy">Saint Barthelemy</option>
+                                        <option value="Saint Helena">Saint Helena</option>
+                                        <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+                                        <option value="Saint Lucia">Saint Lucia</option>
+                                        <option value="Saint Martin">Saint Martin</option>
+                                        <option value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option>
+                                        <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+                                        <option value="Samoa">Samoa</option>
+                                        <option value="San Marino">San Marino</option>
+                                        <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+                                        <option value="Saudi Arabia">Saudi Arabia</option>
+                                        <option value="Senegal">Senegal</option>
+                                        <option value="Serbia">Serbia</option>
+                                        <option value="Serbia and Montenegro">Serbia and Montenegro</option>
+                                        <option value="Seychelles">Seychelles</option>
+                                        <option value="Sierra Leone">Sierra Leone</option>
+                                        <option value="Singapore">Singapore</option>
+                                        <option value="Sint Maarten">Sint Maarten</option>
+                                        <option value="Slovakia">Slovakia</option>
+                                        <option value="Slovenia">Slovenia</option>
+                                        <option value="Solomon Islands">Solomon Islands</option>
+                                        <option value="Somalia">Somalia</option>
+                                        <option value="South Africa">South Africa</option>
+                                        <option value="South Georgia and the South Sandwich Islands">South Georgia and the South Sandwich Islands</option>
+                                        <option value="South Sudan">South Sudan</option>
+                                        <option value="Spain">Spain</option>
+                                        <option value="Sri Lanka">Sri Lanka</option>
+                                        <option value="Sudan">Sudan</option>
+                                        <option value="Suriname">Suriname</option>
+                                        <option value="Svalbard and Jan Mayen">Svalbard and Jan Mayen</option>
+                                        <option value="Swaziland">Swaziland</option>
+                                        <option value="Sweden">Sweden</option>
+                                        <option value="Switzerland">Switzerland</option>
+                                        <option value="Syrian Arab Republic">Syrian Arab Republic</option>
+                                        <option value="Taiwan, Province of China">Taiwan, Province of China</option>
+                                        <option value="Tajikistan">Tajikistan</option>
+                                        <option value="Tanzania, United Republic of">Tanzania, United Republic of</option>
+                                        <option value="Thailand">Thailand</option>
+                                        <option value="Timor-Leste">Timor-Leste</option>
+                                        <option value="Togo">Togo</option>
+                                        <option value="Tokelau">Tokelau</option>
+                                        <option value="Tonga">Tonga</option>
+                                        <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                                        <option value="Tunisia">Tunisia</option>
+                                        <option value="Turkey">Turkey</option>
+                                        <option value="Turkmenistan">Turkmenistan</option>
+                                        <option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
+                                        <option value="Tuvalu">Tuvalu</option>
+                                        <option value="Uganda">Uganda</option>
+                                        <option value="Ukraine">Ukraine</option>
+                                        <option value="United Arab Emirates">United Arab Emirates</option>
+                                        <option value="United Kingdom">United Kingdom</option>
+                                        <option value="United States">United States</option>
+                                        <option value="United States Minor Outlying Islands">United States Minor Outlying Islands</option>
+                                        <option value="Uruguay">Uruguay</option>
+                                        <option value="Uzbekistan">Uzbekistan</option>
+                                        <option value="Vanuatu">Vanuatu</option>
+                                        <option value="Venezuela">Venezuela</option>
+                                        <option value="Viet Nam">Viet Nam</option>
+                                        <option value="Virgin Islands, British">Virgin Islands, British</option>
+                                        <option value="Virgin Islands, U.s.">Virgin Islands, U.s.</option>
+                                        <option value="Wallis and Futuna">Wallis and Futuna</option>
+                                        <option value="Western Sahara">Western Sahara</option>
+                                        <option value="Yemen">Yemen</option>
+                                        <option value="Zambia">Zambia</option>
+                                        <option value="Zimbabwe">Zimbabwe</option>
                                     </select>
                                     {/* {formik.errors.nationality ?(
-                                        <div className="error"> {formik.errors.nationality} </div>
+                                        <div className="error col-md-2"> {formik.errors.nationality} </div>
                                     ) :null}  */}
                                 </div>
                             </div>
@@ -774,24 +807,28 @@ export const VisitorForm = () => {
                             <div className="form-group row">
                                 <div className="col-sm-6 mt-3 ">
                                     <TextInput labelname="Telephone" id="telephone" name="telephone" type="number" placeholder="Telephone number"/> 
+                                    <p className="text-secondary mb-1">(Numbers only)</p>
                                 </div>
                                 <div className="col-sm-6 mt-3 ">
                                     <TextInput labelname="Parents Contact" id="parentscontact" name="parentscontact" type="number" placeholder="Parents number" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.parentscontact}/> 
+                                    <p className="text-secondary mb-1">(Numbers only)</p>
                                     {formik.touched.parentscontact && formik.errors.parentscontact ?(
-                                        <div className="error"> {formik.errors.parentscontact} </div>
+                                        <div className="error col-md-2"> {formik.errors.parentscontact} </div>
                                     ) :null} 
                                 </div>
                                 <div className="col-sm-6 mt-3 "> 
                                     <TextInput labelname="Mobile" id="mobile" type="number" name="mobile" placeholder="Mobile number" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.mobile}/> 
+                                    <p className="text-secondary mb-1">(Numbers only)</p>
                                     {formik.touched.mobile && formik.errors.mobile ?(
-                                        <div className="error"> {formik.errors.mobile} </div>
+                                        <div className="error mb-5"> {formik.errors.mobile} </div>
                                     ) :null} 
                                 </div>
                                 <div className="col-sm-6 mt-3 ">
                                     <TextInput labelname="Email" id="email" type="email" name="email" placeholder="Email Address" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email}/> 
                                     {formik.touched.email && formik.errors.email ?(
-                                        <div className="error"> {formik.errors.email} </div>
+                                        <div className="error col-md-2"> {formik.errors.email} </div>
                                     ) :null}
+                                    
                                 </div>
                             </div>
 
@@ -809,18 +846,18 @@ export const VisitorForm = () => {
                                 <div className="col-sm-6 mt-3 ">
                                     <TextInput labelname="Permanent Address" id="permaddress" name="permaddress" type="text" placeholder="Permanent Address" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.permaddress}/> 
                                     {formik.touched.permaddress && formik.errors.permaddress ?(
-                                        <div className="error"> {formik.errors.permaddress} </div>
+                                        <div className="error col-md-2"> {formik.errors.permaddress} </div>
                                     ) :null}
                                 </div>
                             </div>
 
                             <div className="form-group row">
                                 <div className="col-sm-5 mt-3 ">
-                                    <label className="fs-5 label-color m-2">Apply for</label>  
+                                    <label className="fs-5 label-color my-2">Apply for</label>  
                                 </div>
                             </div>
 
-                            <div className="form-group row ms-4">
+                            <div className="form-group row ms-1">
                                 <div className="form-check col-sm-3 mt-3">
                                     <RadioButton id="applysingle" labelname="Single" name="applytype" value="single" onChange={formik.handleChange} onBlur={formik.handleBlur} />
                                   </div>
@@ -828,7 +865,7 @@ export const VisitorForm = () => {
                                     <RadioButton id="applydependent" labelname="Dependent" name="applytype" value="dependent" onChange={formik.handleChange} onBlur={formik.handleBlur} />
                                   </div>
                                   {formik.touched.applytype && formik.errors.applytype ?(
-                                        <div className="error"> {formik.errors.applytype} </div>
+                                        <div className="error col-4"> {formik.errors.applytype} </div>
                                     ) :null}
                             </div>
 
@@ -841,7 +878,7 @@ export const VisitorForm = () => {
                                 </div>
                             </div>
 
-                            <div className="form-group row  ms-4">
+                            <div className="form-group row  ms-1">
                                 <div className="form-check col-sm-4 label-color m-2">
                                     <RadioButton id="master" labelname="Master's degree" name="educationoption" value="master" onChange={(e)=>{formaster(); formik.setFieldValue("educationoption", e.target.value = "master")}} onBlur={formik.handleBlur} />
                                 </div>
@@ -857,7 +894,7 @@ export const VisitorForm = () => {
                                 </div>
                                 <div className="form-check col-sm-4 label-color m-2">
                                 {formik.touched.educationoption && formik.errors.educationoption ?(
-                                        <div className="error"> {formik.errors.educationoption} </div>
+                                        <div className="error col-md-2"> {formik.errors.educationoption} </div>
                                     ) :null}
                                 </div>
                             </div>
@@ -869,20 +906,20 @@ export const VisitorForm = () => {
                                     <div className="col-sm-12 mt-3 ">
                                         <TextInput labelname="Name of Institute (Master's degree)" id="nameofmaster" name="nameofmaster" type="text" placeholder="Name of Institute" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.nameofmaster}/> 
                                         {formik.errors.nameofmaster ?(
-                                        <div className="error"> {formik.errors.nameofmaster} </div>
+                                        <div className="error col-md-2"> {formik.errors.nameofmaster} </div>
                                     ) :null}
                                     </div>
                                     <div className="form-group row">
                                     <div className="col-sm-6 mt-3 ">
                                         <TextInput labelname="Score Obtained" id="scoreofmaster" name="scoreofmaster" type="number" placeholder="Score Obtained" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.scoreofmaster}/> 
                                         { formik.errors.scoreofmaster ?(
-                                        <div className="error"> {formik.errors.scoreofmaster} </div>
+                                        <div className="error col-md-2"> {formik.errors.scoreofmaster} </div>
                                     ) :null}
                                     </div>
                                     <div className="col-sm-6 mt-3 ">
                                         <TextInput labelname="Passed Year" id="passedofmaster" name="passedofmaster" type="date" placeholder="Passed Year" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.passedofmaster}/> 
                                         {formik.errors.passedofmaster ?(
-                                        <div className="error"> {formik.errors.passedofmaster} </div>
+                                        <div className="error col-md-2"> {formik.errors.passedofmaster} </div>
                                     ) :null}
                                     </div>
                                 </div>
@@ -894,20 +931,20 @@ export const VisitorForm = () => {
                                     <div className="col-sm-12 mt-3 ">
                                         <TextInput labelname="Name of Institute (Bachelor's degree)" id="nameofbachelor" name="nameofbachelor" type="text" placeholder="Name of Institute" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.nameofbachelor}/> 
                                         {formik.errors.nameofbachelor ?(
-                                        <div className="error"> {formik.errors.nameofbachelor} </div>
+                                        <div className="error col-md-2"> {formik.errors.nameofbachelor} </div>
                                     ) :null}
                                     </div>
                                     <div className="form-group row">
                                         <div className="col-sm-6 mt-3 ">
                                             <TextInput labelname="Score Obtained" id="scoreofbachelor" name="scoreofbachelor" type="number" placeholder="Score Obtained" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.scoreofbachelor}/> 
                                             {formik.errors.scoreofbachelor ?(
-                                        <div className="error"> {formik.errors.scoreofbachelor} </div>
+                                        <div className="error col-md-2"> {formik.errors.scoreofbachelor} </div>
                                     ) :null}
                                         </div>
                                         <div className="col-sm-6 mt-3 ">
                                             <TextInput labelname="Passed Year" id="passedofbachelor" name="passedofbachelor" type="date" placeholder="Passed Year" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.passedofbachelor}/> 
                                             { formik.errors.passedofbachelor ?(
-                                        <div className="error"> {formik.errors.passedofbachelor} </div>
+                                        <div className="error col-md-2"> {formik.errors.passedofbachelor} </div>
                                     ) :null}
                                         </div>
                                     </div>
@@ -918,20 +955,20 @@ export const VisitorForm = () => {
                                     <div className="col-sm-12 mt-3 ">
                                         <TextInput labelname="Name of Institute (Intermediate or 10+2)" id="nameofplustwo" name="nameofplustwo" type="text" placeholder="Name of Institute" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.nameofplustwo}/>
                                         {formik.errors.nameofplustwo ?(
-                                        <div className="error"> {formik.errors.nameofplustwo} </div>
+                                        <div className="error col-md-2"> {formik.errors.nameofplustwo} </div>
                                     ) :null}
                                     </div>
                                     <div className="form-group row">
                                         <div className="col-sm-6 mt-3 ">
                                             <TextInput labelname="Score Obtained" id="scoreofplustwo" name="scoreofplustwo" type="number" placeholder="Score Obtained" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.scoreofplustwo}/> 
                                             {formik.errors.scoreofplustwo ?(
-                                        <div className="error"> {formik.errors.scoreofplustwo} </div>
+                                        <div className="error col-md-2"> {formik.errors.scoreofplustwo} </div>
                                     ) :null}
                                         </div>
                                         <div className="col-sm-6 mt-3 ">
                                             <TextInput labelname="Passed Year" id="passedofplustwo" name="passedofplustwo" type="date" placeholder="Passed Year" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.passedofplustwo}/> 
                                             {formik.errors.passedofplustwo ?(
-                                        <div className="error"> {formik.errors.passedofplustwo} </div>
+                                        <div className="error col-md-2"> {formik.errors.passedofplustwo} </div>
                                     ) :null}
                                         </div>
                                     </div>
@@ -945,20 +982,20 @@ export const VisitorForm = () => {
                             <div className="form-group row">
                                 <div className="col-sm-6 mt-3 ">
                                     <label for="Academic" className="fs-3 heading">Work Experience</label>
-                                    <p className="label-color mx-4 mt-4">Have you got work experience?</p>
+                                    <p className="label-color mr-4 mt-4">Have you got work experience?</p>
                                 </div>
                             </div>
-                            <div className="form-group row  ms-4">
-                                <div className="form-check col-sm-3 label-color m-2">
+                            <div className="form-group row  ms-1">
+                                <div className="form-check col-sm-3 label-color mt-3">
                                     <RadioButton labelname="Yes" name="workoption" value="yes" onChange={(e)=>{forWork(); formik.setFieldValue("workoption", e.target.value = "yes")}} onBlur={formik.handleBlur}/>
                                 </div>
                                
-                                <div className="form-check col-sm-3 label-color m-2">
+                                <div className="form-check col-sm-3 label-color mt-3">
                                   <RadioButton labelname="No" name="workoption"value="no" onChange={(e)=>{forWorkHide();formik.setFieldValue("workoption", e.target.value = "no")}} onBlur={formik.handleBlur}/>
                                 </div>
                                 <div className="form-check col-sm-4 label-color m-2">
                                   {formik.touched.workoption && formik.errors.workoption ?(
-                                        <div className="error"> {formik.errors.workoption} </div>
+                                        <div className="error col-md-2"> {formik.errors.workoption} </div>
                                     ) :null}
                                     </div>
                                 </div>
@@ -969,7 +1006,7 @@ export const VisitorForm = () => {
                                         <label for="nameofwork" className="label-color m-2">Name of Company (Work Experience)</label>
                                         <input type="text" className="form-control" id="nameofwork" placeholder="Name of Company" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.nameofwork}/>
                                         { formik.errors.nameofwork ?(
-                                        <div className="error"> {formik.errors.nameofwork} </div>
+                                        <div className="error col-md-2"> {formik.errors.nameofwork} </div>
                                     ) :null}
                                     </div>
                                     <div className="form-group row">
@@ -977,14 +1014,14 @@ export const VisitorForm = () => {
                                             <label for="startofwork" className="label-color m-2">Start Date</label>
                                             <input type="date" className="form-control" id="startofwork" placeholder="Score Obtained" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.startofwork}/>
                                             {formik.errors.startofwork ?(
-                                        <div className="error"> {formik.errors.startofwork} </div>
+                                        <div className="error col-md-2"> {formik.errors.startofwork} </div>
                                     ) :null}
                                         </div>
                                         <div className="col-sm-6 mt-3 ">
                                             <label for="endofwork" className="label-color m-2">End Date</label>
                                             <input type="date" className="form-control" id="endofwork" placeholder="Passed Year" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.endofwork}/>
                                             {formik.errors.endofwork ?(
-                                        <div className="error"> {formik.errors.endofwork} </div>
+                                        <div className="error col-md-2"> {formik.errors.endofwork} </div>
                                     ) :null}
                                         </div>
                                         
@@ -998,10 +1035,10 @@ export const VisitorForm = () => {
                             <div className="form-group row">
                                 <div className="col-sm-6 mt-3 ">
                                     <label for="Academic" className="fs-3 heading">Education Gap</label>
-                                    <p className="label-color mx-4 mt-4">Have you got education gap?</p>
+                                    <p className="label-color mr-4 mt-4">Have you got education gap?</p>
                                 </div>
                             </div>
-                            <div className="form-group row ms-4">
+                            <div className="form-group row ms-1">
                               
                                 <div className="form-check col-sm-3 mt-3 ">
                                     <RadioButton id="gapyes" labelname="Yes" name="edugap" value="yes" onChange={(e)=>{forGap() ; formik.setFieldValue("edugap", e.target.value = "yes")}} onBlur={formik.handleBlur} />
@@ -1011,7 +1048,7 @@ export const VisitorForm = () => {
                                   </div>
                                   <div className="form-check col-sm-3 mt-3 ">
                                   {formik.touched.edugap && formik.errors.edugap ?(
-                                        <div className="error"> {formik.errors.edugap} </div>
+                                        <div className="error col-md-2"> {formik.errors.edugap} </div>
                                     ) :null}
                                     </div>
                             </div>
@@ -1023,14 +1060,14 @@ export const VisitorForm = () => {
                                         <label for="gapstart" className="label-color m-2">Gap Start Date</label>
                                         <input type="date" className="form-control" id="gapstart" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.gapstart}/>
                                         {formik.errors.gapstart ?(
-                                        <div className="error"> {formik.errors.gapstart} </div>
+                                        <div className="error col-md-2"> {formik.errors.gapstart} </div>
                                     ) :null}
                                     </div>
                                     <div className="col-sm-6 mt-3 ">
                                         <label for="gapend" className="label-color m-2">Gap End Date</label>
                                         <input type="date" className="form-control" id="gapend" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.gapend}/>
                                         {formik.errors.gapend ?(
-                                        <div className="error"> {formik.errors.gapend} </div>
+                                        <div className="error col-md-2"> {formik.errors.gapend} </div>
                                     ) :null}
                                     </div>
                                 </div>
@@ -1042,22 +1079,22 @@ export const VisitorForm = () => {
                                 <div className="col-sm-6 mt-3 ">
                                     <TextInput labelname="Intended Course" id="intendedcourse" name="intendedcourse" type="text" placeholder="Intended Course" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.intendedcourse}/>
                                     {formik.touched.intendedcourse && formik.errors.intendedcourse ?(
-                                        <div className="error"> {formik.errors.intendedcourse} </div>
+                                        <div className="error col-md-2"> {formik.errors.intendedcourse} </div>
                                     ) :null}
                                 </div>
                                 <div className="col-sm-6 mt-3 ">
                                 {/* Intended country: Australia, canada, usa, uk, denmark, */}
                                 <label className="label-color m-2">Intended Country</label>
                                 <select id="intendedcountry" name="intendedcountry" className="form-control form-select" aria-label="Default select example" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.intendedcountry}>
-                                        <option value="AU">Australia</option>
-                                        <option value="CA">Canada</option>
-                                        <option value="DK">Denmark</option>
-                                        <option value="GB">United Kingdom</option>
-                                        <option value="US">United States</option>
-                                        <option value="UM">United States Minor Outlying Islands</option>
+                                        <option value="Australia">Australia</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="Denmark">Denmark</option>
+                                        <option value="United Kingdom">United Kingdom</option>
+                                        <option value="United States">United States</option>
+                                        <option value="United States Minor Outlying Islands">United States Minor Outlying Islands</option>
                                     </select>
                                     {/* {formik.touched.intendedcountry && formik.errors.intendedcountry ?(
-                                        <div className="error"> {formik.errors.intendedcountry} </div>
+                                        <div className="error col-md-2"> {formik.errors.intendedcountry} </div>
                                     ) :null} */}
                                 </div>
                             </div>
@@ -1067,17 +1104,17 @@ export const VisitorForm = () => {
                                     <label for="gap" className="fs-5 label-color m-2">Applied visa before?</label>  
                                 </div>
                             </div>
-                            <div className="form-group row ms-4">
+                            <div className="form-group row ms-1">
                               
-                                <div className="form-check col-sm-3 ">
+                                <div className="form-check col-sm-3 mt-3">
                                     <RadioButton id="applyyes" labelname="Yes" name="visa" value="yes" onChange={(e)=>{forBeforeApplied(); formik.setFieldValue("visa", e.target.value = "yes")}} onBlur={formik.handleBlur}  />
                                   </div>
-                                  <div className="form-check col-sm-3 ">
+                                  <div className="form-check col-sm-3 mt-3">
                                     <RadioButton id="applyno" labelname="No" name="visa"  value="no" onChange={(e)=>{forBeforeNotApplied(); formik.setFieldValue("visa", e.target.value = "no")}} onBlur={formik.handleBlur} />
                                   </div>
                                   <div className="form-check col-sm-3 ">
                                   {formik.touched.visa && formik.errors.visa ?(
-                                        <div className="error"> {formik.errors.visa} </div>
+                                        <div className="error col-md-2"> {formik.errors.visa} </div>
                                     ) :null}
                                     </div>
                             </div>
@@ -1089,7 +1126,7 @@ export const VisitorForm = () => {
                                         <label for="Applied country" className="label-color m-2">Applied Country</label>
                                         <input type="text" className="form-control" id="appliedcountry" placeholder="Applied Country" name="appliedcountry" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.appliedcountry}/>
                                         {formik.touched.appliedcountry && formik.errors.appliedcountry ?(
-                                        <div className="error"> {formik.errors.appliedcountry} </div>
+                                        <div className="error col-md-2"> {formik.errors.appliedcountry} </div>
                                     ) :null}
                                     </div>
                                 </div>
@@ -1103,7 +1140,7 @@ export const VisitorForm = () => {
                                 </div>
                             </div>
 
-                            <div className="form-group row  d-flex flex-wrap">
+                            <div className="form-group row ms-4">
                                 <div className="form-check col-12 col-sm-6 col-md-4 col-lg-3 label-color m-2">
                                     <input type="checkbox" className="form-check-input" id="check-toefl" name="option1" value={toefl} onChange={(e)=>{settoefl(prevState=>!prevState)}}/>
                                     <label className="form-check-label" for="check1">TOEFL</label>
@@ -1188,38 +1225,39 @@ export const VisitorForm = () => {
                                     <label for="knowhow" className="fs-5 label-color m-2">How do you know us?</label>  
                                 </div>
                             </div>
+                            
                             <div className="form-group row  ms-4">
                                 <div className="form-check col-sm-4 label-color m-2">
-                                    <input type="checkbox" className="form-check-input" id="fb" name="fb" value={formik.values.fb? true: false} onChange={(e)=>{formik.setFieldValue("fb", e.target.value === true? false: true);formik.setFieldValue("know_us", e.target.value === true? formik.values.know_us+= "fb" : formik.values.know_us)}}/>
+                                    <input type="checkbox" className="form-check-input" id="fb" name="fb"/>
                                     <label className="form-check-label" for="check1">Facebook</label>
                                   </div>
 
                                   <div className="form-check col-sm-4 label-color m-2">
-                                    <input type="checkbox" className="form-check-input" id="website" name="website" value={formik.values.website} onChange={(e)=>{formik.setFieldValue("website", e.target.value === true? false: true);formik.setFieldValue("know_us", e.target.value === true? formik.values.know_us+= "website" : formik.values.know_us)}}/>
+                                    <input type="checkbox" className="form-check-input" id="website" name="website"/>
                                     <label className="form-check-label" for="check2">Website</label>
                                   </div>
                                   <div className="form-check col-sm-4 label-color m-2">
-                                    <input type="checkbox" className="form-check-input" id="paperadv" name="paperadv" value={formik.values.paperadv} onChange={(e)=>{formik.setFieldValue("paperadv", e.target.value === true? false: true);formik.setFieldValue("know_us", e.target.value === true? formik.values.know_us+= "paperadv" : formik.values.know_us)}}/>
+                                    <input type="checkbox" className="form-check-input" id="paperadv" name="paperadv" />
                                     <label className="form-check-label" for="check2">Paper Adv</label>
                                   </div>
                                   <div className="form-check col-sm-4 label-color m-2">
-                                    <input type="checkbox" className="form-check-input" id="edufair" name="edufair" value={formik.values.edufair} onChange={(e)=>{formik.setFieldValue("edufair", e.target.value === true? false: true);formik.setFieldValue("know_us", e.target.value === true? formik.values.know_us+= "edufair" : formik.values.know_us)}}/>
+                                    <input type="checkbox" className="form-check-input" id="edufair" name="edufair"/>
                                     <label className="form-check-label" for="check2">Education Fair</label>
                                   </div>
                                   <div className="form-check col-sm-4 label-color m-2">
-                                    <input type="checkbox" className="form-check-input" id="friends" name="friends" value={formik.values.friends} onChange={(e)=>{formik.setFieldValue("friends", e.target.value === true? false: true);formik.setFieldValue("know_us", e.target.value === true? formik.values.know_us+= "friends" : formik.values.know_us)}}/>
+                                    <input type="checkbox" className="form-check-input" id="friends" name="friends"/>
                                     <label className="form-check-label" for="check2">Friends</label>
                                   </div>
                                   <div className="form-check col-sm-4 label-color m-2">
-                                    <input type="checkbox" className="form-check-input" id="reference" name="reference" value={formik.values.reference} onChange={(e)=>{formik.setFieldValue("reference", e.target.value === true? false: true);formik.setFieldValue("know_us", e.target.value === true? formik.values.know_us = `${formik.values.know_us}, reference` : formik.values.know_us)}}/>
+                                    <input type="checkbox" className="form-check-input" id="reference" name="reference"/>
                                     <label className="form-check-label" for="check2">Reference</label>
                                   </div>
                                   <div className="form-check col-sm-4 label-color m-2">
-                                    <input type="checkbox" className="form-check-input" id="hoardingboards" name="hoardingboards" value={formik.values.hoardingboards} onChange={(e)=>{formik.setFieldValue("hoardingboards", e.target.value === true? false: true);formik.setFieldValue("know_us", e.target.value === true? formik.values.know_us+= "hoardingboards" : formik.values.know_us)}}/>
+                                    <input type="checkbox" className="form-check-input" id="hoardingboards" name="hoardingboards"/>
                                     <label className="form-check-label" for="check2">Hoarding Boards</label>
                                   </div>
                                   <div className="form-check col-sm-4 label-color m-2">
-                                    <input type="checkbox" className="form-check-input" id="tv" name="tv" value={formik.values.tv} onChange={(e)=>{formik.setFieldValue("tv", e.target.value === true? false: true);formik.setFieldValue("know_us", e.target.value === true? formik.values.know_us+= "tv" : formik.values.know_us)}}/>
+                                    <input type="checkbox" className="form-check-input" id="tv" name="tv"/>
                                     <label className="form-check-label" for="check2">TV</label>
                                   </div>
                             </div>
@@ -1227,7 +1265,7 @@ export const VisitorForm = () => {
                             <div className="form-group row">
                                 <div className=" col-md-10">
                                     <label for="knowhow" className="fs-5 label-color m-2">Remarks</label> <br/> 
-                                    <textarea name="remarks" className="form-control ms-4 mt-2" id="remarks" cols="100" rows="5" placeholder="Write your remarks here........."></textarea>
+                                    <textarea name="remarks" className="form-control mt-2" id="remarks" cols="100" rows="5" placeholder="Write your remarks here........."></textarea>
                                 </div>
                             </div>
                             <br/>
@@ -1237,7 +1275,7 @@ export const VisitorForm = () => {
                                 <input type="checkbox" name="confirm" className="form-check-input" id="confirm"  onBlur={formik.handleBlur} value={formik.values.confirm} onChange={(e)=>{formik.setFieldValue("confirm", e.target.value === 'on'?"off":"on")}} />
                                 <label className="form-check-label" for="check1">The above mentioned information is ture to the best of my knowledge.</label>
                                 {formik.touched.confirm && formik.errors.confirm ?(
-                                        <div className="error"> {formik.errors.confirm} </div>
+                                        <div className="error col-md-3 col-sm-3"> {formik.errors.confirm} </div>
                                     ) :null}
                                   
                             </div>
@@ -1249,5 +1287,9 @@ export const VisitorForm = () => {
 
                 </div>
             </div>
-
+</>
             )}
+
+
+
+            

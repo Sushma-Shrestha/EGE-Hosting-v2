@@ -7,15 +7,15 @@ export const Sidebar =()=>{
     //     console.log(field);
     return (
         <Menu>
-        <a className="menu-item" href="/admin">
+        <a className="menu-item" href="/#/admin">
           Dashboard
         </a>
   
-        <a className="menu-item" href="/admin">
+        <a className="menu-item" href="/#/admin">
           VisitorForm
         </a>
   
-        <a className="menu-item" href="/">
+        <a className="menu-item" href="/#/">
           Logout
         </a>
       </Menu>
